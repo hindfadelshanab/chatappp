@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SocketClient</string>
+    <string name="name_empty">Name field cannot be empty</string>
+</resources>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ba"
+    >
+
+    <Button
+        android:id="@+id/btn_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_shape"
+        android:text="singn in"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="@+id/email_sign_in"
+        app:layout_constraintStart_toStartOf="@+id/email_sign_in"
+        app:layout_constraintTop_toBottomOf="@+id/password_sign_in" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="251dp"
+        android:layout_height="40dp"
+
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="20dp"
+        android:text="Already have acount?"
+        android:textColor="#A6A1A1"
+        android:textSize="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
+
+    <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/btn_have_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="72dp"
+        android:text="SIGN UP"
+        android:textColor="#C247BF"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="167dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="228dp"
+        android:text="Sign IN"
+        android:textColor="#FFF7F7"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/butsingin"
+        android:layout_width="364dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="52dp"
+        android:padding="20dp"
+        android:text="We collect all the chalets of the sector  in one place"
+        android:textAlignment="center"
+        android:textColor="#F1F1F1"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/email_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="57dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/signback"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/butsingin" />
+
+    <EditText
+
+        android:id="@+id/password_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="57dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/signback"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="15dp"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/email_sign_in"
+        app:layout_constraintStart_toStartOf="@+id/email_sign_in"
+        app:layout_constraintTop_toBottomOf="@+id/email_sign_in" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
