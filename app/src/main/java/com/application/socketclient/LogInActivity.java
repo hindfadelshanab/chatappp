@@ -52,7 +52,6 @@ public class LogInActivity extends AppCompatActivity {
 
 
 
-
         SharedPreferences sharedPreferences=getSharedPreferences("shared",MODE_PRIVATE);
         Appid = sharedPreferences.getString("Appid","");
 

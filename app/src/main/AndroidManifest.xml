@@ -15,10 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".UsersActivity"></activity>
-        <activity android:name=".WelcomActivity" />
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity">
             <intent-filter>
