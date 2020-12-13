@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     String userId;
     private Gson gson;
     static String user_username;
-     static String user_userid;
+    static String user_userid;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +66,15 @@ public class MainActivity extends AppCompatActivity {
 
         String sendername = getIntent().getStringExtra("username");
         desId = getIntent().getStringExtra("userid");
+        user = getIntent().getParcelableExtra("user");
         nameOfUser.setText(sendername);
 
         messageRecycle.setLayoutManager(new LinearLayoutManager(this));
         messageRecycle.setAdapter(messageAdapter);
 
         SharedPreferences sharedPreferencess = getSharedPreferences("shared2", MODE_PRIVATE);
-       user_username=  sharedPreferencess.getString("user_username","");
-        user_userid=sharedPreferencess.getString("user_userid","");
+        user_username = sharedPreferencess.getString("user_username", "");
+        user_userid = sharedPreferencess.getString("user_userid", "");
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
@@ -99,10 +101,12 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                 //       JSONObject data = (JSONObject) args[0];
-                        Message m=gson.fromJson(args[0].toString(),Message.class);
-                        mesageArray.add(m);
-                        messageAdapter.notifyDataSetChanged();
+                        //       JSONObject data = (JSONObject) args[0];
+                        if (args[0].toString().equals(LogInActivity.user.getId() + desId)
+                                || args[0].toString().equals(desId + LogInActivity.user.getId())) {
+                            Message m = gson.fromJson(args[1].toString(), Message.class);
+                            mesageArray.add(m);
+                            messageAdapter.notifyDataSetChanged();
 /*
                             Log.e("tttttt", data.getString("desid"));
                        //     if (desId.equals(data.getString("desid")) ) {
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
  */
 
 
-                        System.out.println("ggg");
+                            System.out.println("ggg");
 /*
 
                                 Log.e("mess", String.valueOf(args[0]));
@@ -126,8 +130,9 @@ public class MainActivity extends AppCompatActivity {
                                 }.getType();
                                 List<Message> messagelisst = gson.fromJson(args[0].toString(), userListType);
                                 */
-                        //   mesageArray.addAll(messagelisst);
+                            //   mesageArray.addAll(messagelisst);
 
+                        }
                     }
                 });
             }
@@ -196,13 +201,13 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             jsonObject.put("message", ed_messege.getText().toString().trim());
-            jsonObject.put("userid",user_username);
+            jsonObject.put("userid", LogInActivity.user.getId());
             jsonObject.put("userName", user_userid);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         ed_messege.setText("");
-        mSocket.emit("allmessage", jsonObject);
+        mSocket.emit("allmessage", LogInActivity.user.getId() + desId, jsonObject);
     }
 
 }

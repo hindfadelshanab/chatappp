@@ -18,12 +18,14 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 public class LogInActivity extends AppCompatActivity {
 
-    private String EMAIL ="emailLogin";
-    private String PASSWORD="passwordLogin";
-   private EditText email;
-   private EditText password;
+    private String EMAIL = "emailLogin";
+    private String PASSWORD = "passwordLogin";
+    private EditText email;
+    private EditText password;
     Button btnLogin;
     Button btnCreatAccount;
     private Socket mSocket;
@@ -38,9 +40,9 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         email = findViewById(R.id.email_sign_in);
         password = findViewById(R.id.password_sign_in);
-        btnLogin=findViewById(R.id.btn_sign_in);
-       btnCreatAccount=findViewById(R.id.btn_have_account);
-       gson=new Gson();
+        btnLogin = findViewById(R.id.btn_sign_in);
+        btnCreatAccount = findViewById(R.id.btn_have_account);
+        gson = new Gson();
 
         ChatApplication app = new ChatApplication();
         mSocket = app.getSocket();
@@ -51,10 +53,10 @@ public class LogInActivity extends AppCompatActivity {
         mSocket.connect();
 
 
+        SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
+        Appid = sharedPreferences.getString("Appid", "");
 
-        SharedPreferences sharedPreferences=getSharedPreferences("shared",MODE_PRIVATE);
-        Appid = sharedPreferences.getString("Appid","");
-
+        final UUID userId = UUID.randomUUID();
         mSocket.on("SignInData", new Emitter.Listener() {
             @Override
             public void call(final Object... args) {
@@ -62,10 +64,10 @@ public class LogInActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if((Boolean)args[1]){
-                            user=gson.fromJson(args[2].toString(),User.class);
-                            System.out.println(user.getEmail()+user.getId());
-                            startActivity(new Intent(LogInActivity.this,UsersActivity.class));
+                        if ((Boolean) args[1] && userId.toString().equals(args[0])) {
+                            user = gson.fromJson(args[2].toString(), User.class);
+                            System.out.println(user.getEmail() + user.getId());
+                            startActivity(new Intent(LogInActivity.this, UsersActivity.class));
                         }
                         Log.e("op", String.valueOf(args[0]));
 
@@ -79,12 +81,12 @@ public class LogInActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkIsNotEmptys()){
-                    JSONObject jsonObject=new JSONObject();
+                if (checkIsNotEmptys()) {
+                    JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.put("emaill",email.getText());
-                        jsonObject.put("pass",password.getText());
-                        mSocket.emit("SignInData" , Appid,jsonObject);
+                        jsonObject.put("emaill", email.getText());
+                        jsonObject.put("pass", password.getText());
+                        mSocket.emit("SignInData", userId.toString(), jsonObject);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -127,7 +129,8 @@ public class LogInActivity extends AppCompatActivity {
             });
         }
     };
-    public Boolean checkIsNotEmptys(){
+
+    public Boolean checkIsNotEmptys() {
         if (TextUtils.isEmpty(email.getText())) {
             email.setError(" field is empty");
             return false;

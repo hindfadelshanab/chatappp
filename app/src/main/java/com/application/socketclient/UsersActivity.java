@@ -45,6 +45,7 @@ public class UsersActivity extends AppCompatActivity {
                 Intent i = new Intent(UsersActivity.this, MainActivity.class);
                 i.putExtra("username", usernamee);
                 i.putExtra("userid", u.getId());
+                i.putExtra("user", u);
                 Log.e("iiid", userId);
                 startActivity(i);
             }
@@ -76,6 +77,7 @@ public class UsersActivity extends AppCompatActivity {
                         }.getType();
                         List<User> userlisst = gson.fromJson(args[0].toString(), userListType);
                         Log.e("mm", userlisst.toString());
+                        userArray.clear();
                         userArray.addAll(userlisst);
                         userdAdapter.notifyDataSetChanged();
                     }
