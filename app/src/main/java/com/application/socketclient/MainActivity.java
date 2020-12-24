@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     static String user_username;
     static String user_userid;
     User user;
+    ImageView imageViewll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mesageArray = new ArrayList<>();
         messageRecycle = findViewById(R.id.messageRecycleView);
         messageAdapter = new MessageAdapter(mesageArray);
+        imageViewll=findViewById(R.id.onnnnli);
         gson = new Gson();
 
         ed_messege = findViewById(R.id.ed_messege);
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         desId = getIntent().getStringExtra("userid");
         user = getIntent().getParcelableExtra("user");
         nameOfUser.setText(sendername);
+
 
         messageRecycle.setLayoutManager(new LinearLayoutManager(this));
         messageRecycle.setAdapter(messageAdapter);
@@ -88,12 +91,18 @@ public class MainActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.connect();
 
+        imageViewll.setVisibility(View.INVISIBLE);
+
+
+
         img_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptSend();
             }
         });
+
+       // mSocket.emit("join",LogInActivity.user.getId());
 
         mSocket.on("allmessage", new Emitter.Listener() {
             @Override
@@ -202,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             jsonObject.put("message", ed_messege.getText().toString().trim());
             jsonObject.put("userid", LogInActivity.user.getId());
-            jsonObject.put("userName", user_userid);
+            jsonObject.put("userName", LogInActivity.user.getUsername());
         } catch (JSONException e) {
             e.printStackTrace();
         }

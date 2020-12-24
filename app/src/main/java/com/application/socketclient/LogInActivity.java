@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +68,8 @@ public class LogInActivity extends AppCompatActivity {
                         if ((Boolean) args[1] && userId.toString().equals(args[0])) {
                             user = gson.fromJson(args[2].toString(), User.class);
                             System.out.println(user.getEmail() + user.getId());
-                            startActivity(new Intent(LogInActivity.this, UsersActivity.class));
+                            Intent i=new Intent(LogInActivity.this, UsersActivity.class);
+                            startActivity(i);
                         }
                         Log.e("op", String.valueOf(args[0]));
 
@@ -76,6 +78,7 @@ public class LogInActivity extends AppCompatActivity {
 
             }
         });
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {

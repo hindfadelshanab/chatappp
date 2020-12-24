@@ -14,8 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UsersActivity"></activity>
-
+        <activity android:name=".GroubActivity"></activity>
+        <activity android:name=".MakeGroubActivity" />
+        <activity android:name=".UsersActivity" />
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity">
             <intent-filter>

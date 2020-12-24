@@ -37,7 +37,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position)==0){
-        messageViewHolder messageViewHolder= (MessageAdapter.messageViewHolder) holder;
+           messageViewHolder messageViewHolder= (MessageAdapter.messageViewHolder) holder;
             messageViewHolder.onBind(mMessages.get(position));
 
         }else {
@@ -80,15 +80,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public  class ReceverMessageViewHolder extends RecyclerView.ViewHolder{
         TextView messageText;
+        TextView usernameRecever;
 
         public ReceverMessageViewHolder(@NonNull View itemView) {
             super(itemView);
             messageText=itemView.findViewById(R.id.text_view_message);
+            usernameRecever=itemView.findViewById(R.id.text_user_name_sender);
 
         }
 
         public void onBind(Message item) {
             messageText.setText(item.getMessage());
+            usernameRecever.setText(item.getUserName());
         }
     }
 }

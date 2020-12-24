@@ -8,12 +8,29 @@ public class User implements Parcelable {
     private String email;
     private String password;
    private String id;
+   private boolean isChecked;
 
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public User(String id, String name, String email) {
+        this.username = name;
+        this.email = email;
+        this.id=id;
+        this.isChecked=isChecked;
+
+
+    }
     public User(String id, String name, String email, String password) {
         this.username = name;
         this.email = email;
         this.id=id;
-
         this.password = password;
 
     }

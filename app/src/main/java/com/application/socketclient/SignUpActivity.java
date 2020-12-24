@@ -79,6 +79,8 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
+
+
         btnhaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +91,6 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (checkIsNotEmpty()) {
                     JSONObject jsonObject = new JSONObject();
                     try {

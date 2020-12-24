@@ -3,7 +3,6 @@ package com.application.socketclient;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,29 +12,30 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsersActivity extends AppCompatActivity {
+
     private String TAG = "useractivity";
     RecyclerView recyclerViewUser;
     private Gson gson;
     private List<User> userArray;
+    ArrayList<User> userlisst;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
-
-
+        userlisst=new ArrayList<>();
         userArray = new ArrayList<>();
         recyclerViewUser = findViewById(R.id.recycleviewUser);
         final UserdAdapter userdAdapter = new UserdAdapter(userArray);
         recyclerViewUser.setAdapter(userdAdapter);
         recyclerViewUser.setLayoutManager(new LinearLayoutManager(this));
+
         userdAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -63,6 +63,7 @@ public class UsersActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.connect();
 
+
         mSocket.emit("allusers", true);
 
         mSocket.on("allusers", new Emitter.Listener() {
@@ -75,7 +76,8 @@ public class UsersActivity extends AppCompatActivity {
                         System.out.println(args[0]);
                         Type userListType = new TypeToken<List<User>>() {
                         }.getType();
-                        List<User> userlisst = gson.fromJson(args[0].toString(), userListType);
+                       userlisst = gson.fromJson(args[0].toString(), userListType);
+                        userlisst.get(0).getId();
                         Log.e("mm", userlisst.toString());
                         userArray.clear();
                         userArray.addAll(userlisst);
@@ -88,7 +90,26 @@ public class UsersActivity extends AppCompatActivity {
         });
 
 
+        mSocket.on("joinu", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String data= (String) args[0];
+                        Log.e("oooooooooopsppsps","inline id :"+data);
+
+                    }
+                });
+            }
+        });
+
+
+
+
     }
+
+
 
     public Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
@@ -122,4 +143,11 @@ public class UsersActivity extends AppCompatActivity {
         }
     };
 
+
+    public void moveToMackeGroub(View view) {
+
+        Intent i=new Intent(UsersActivity.this,MakeGroubActivity.class);
+        i.putParcelableArrayListExtra("userlist",userlisst);
+        startActivity(i);
+    }
 }
