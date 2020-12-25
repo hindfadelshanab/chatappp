@@ -93,8 +93,7 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
 
             userame.setText(item.getUsername());
             email.setText(item.getEmail());
-
-
+            
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -103,7 +102,10 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
                       //  User ug=item;
                         Log.e("check","checkeddddddd");
                         Log.e("ched",item.getUsername()+"chhhhhecked");
+                        mSocket.emit("userOnline", item.getId());
 
+
+/*
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("username", item.getUsername());
@@ -115,6 +117,8 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+ */
 
                       //  mSocket.emit("userOnline",usergroub);
                     }else {

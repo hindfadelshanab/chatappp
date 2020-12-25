@@ -5,10 +5,16 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class Groub implements Parcelable{
+public class Groub implements Parcelable {
     private String groubName;
-    private List<User> user;
+    private List<String> user;
     private String id;
+
+    protected Groub(Parcel in) {
+        groubName = in.readString();
+        user = in.createStringArrayList();
+        id = in.readString();
+    }
 
     public static final Creator<Groub> CREATOR = new Creator<Groub>() {
         @Override
@@ -30,23 +36,19 @@ public class Groub implements Parcelable{
         this.id = id;
     }
 
-    public Groub(String id,String groubName, List<User> user) {
+    public Groub(String id,String groubName, List<String> user) {
         this.groubName = groubName;
         this.user = user;
         this.id=id;
     }
 
-    protected Groub(Parcel in) {
-        groubName = in.readString();
-        user = in.createTypedArrayList(User.CREATOR);
-    }
 
 
-    public List<User> getUser() {
+    public List<String> getUser() {
         return user;
     }
 
-    public void setUser(List<User> user) {
+    public void setUser(List<String> user) {
         this.user = user;
     }
 
@@ -68,7 +70,7 @@ public class Groub implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(groubName);
-        dest.writeTypedList(user);
+        dest.writeStringList(user);
         dest.writeString(id);
     }
 }

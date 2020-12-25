@@ -145,4 +145,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
+    public void haveAccount(View view) {
+        startActivity(new Intent(LogInActivity.this,SignUpActivity.class));
+    }
 }
