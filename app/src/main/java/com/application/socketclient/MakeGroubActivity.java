@@ -30,6 +30,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,8 +47,8 @@ public class MakeGroubActivity extends AppCompatActivity {
     ArrayList<String> userlisstGroub;
     ArrayList<Groub> groubs;
     private String groubId;
-     ArrayList<User> arr;
-     ArrayList<String > UserIdList;
+    ArrayList<User> arr;
+    ArrayList<String> UserIdList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,38 +68,45 @@ public class MakeGroubActivity extends AppCompatActivity {
 
         //List<User> list=new ArrayList<>();
 
-        mSocket.on("userOnline", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-               Log.e("yarab", String.valueOf(args[0]));
-                userlisstGroub.add(String.valueOf(args[0]));
-                //Type userListType = new TypeToken<List<User>>() {
-                ///}.getType();
-           //    ArrayList<User> userlisst = gson.fromJson(args[0].toString(), userListType);
-             //  for (int i=0; i<userlisst.size();i++) {
-               //    userlisstGroub.add(userlisst.get(i).getId());
-                 //  Log.e("tag",userlisst.get(i).getId());
-             //  }
-                groubs.add(new Groub(groubId, editTextGroubName.getText().toString(), userlisstGroub));
-
-            }
-        });
-
+//        mSocket.on("userOnline", new Emitter.Listener() {
+//            @Override
+//            public void call(Object... args) {
+//               Log.e("yarab", String.valueOf(args[0]));
+//                userlisstGroub.add(String.valueOf(args[0]));
+//                //Type userListType = new TypeToken<List<User>>() {
+//                ///}.getType();
+//           //    ArrayList<User> userlisst = gson.fromJson(args[0].toString(), userListType);
+//             //  for (int i=0; i<userlisst.size();i++) {
+//               //    userlisstGroub.add(userlisst.get(i).getId());
+//                 //  Log.e("tag",userlisst.get(i).getId());
+//             //  }
+//                groubs.add(new Groub(groubId, editTextGroubName.getText().toString(), userlisstGroub));
+//
+//            }
+//        });
 
 
         RecyclerView recyclerView = findViewById(R.id.recycle_g);
-      UserdGroubAdapter userdAdapter = new UserdGroubAdapter(MakeGroubActivity.this, arr);
+        UserdGroubAdapter userdAdapter = new UserdGroubAdapter(MakeGroubActivity.this, arr, new UserdGroubAdapter.OnItemSelectUser() {
+            @Override
+            public void onSelect(boolean isSelect, User item) {
+                if (isSelect)
+                    userlisstGroub.add(item.getId());
+                else
+                    userlisstGroub.remove(item.getId());
+            }
+        });
 
-       recyclerView.setAdapter(userdAdapter);
-     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-       if (arr != null) {
-          for (int i = 0; i < arr.size(); i++) {
-             User user = new User(arr.get(i).getId(), arr.get(i).getUsername(), arr.get(i).getEmail());
-             Log.e("us", user.toString());
-         }
-
-
-    }
+        recyclerView.setAdapter(userdAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        if (arr != null) {
+//            for (int i = 0; i < arr.size(); i++) {
+//                User user = new User(arr.get(i).getId(), arr.get(i).getUsername(), arr.get(i).getEmail());
+//                Log.e("us", user.toString());
+//            }
+//
+//
+//        }
 
 
     }
@@ -114,15 +122,16 @@ public class MakeGroubActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_check) {
             Intent i = new Intent(MakeGroubActivity.this, GroubActivity.class);
             //i.putParcelableArrayListExtra("userInGroub", userlisstGroub);
-          //  i.putExtra("groubName", editTextGroubName.getText().toString());
+            //  i.putExtra("groubName", editTextGroubName.getText().toString());
 
 
             JSONObject jsonObject = new JSONObject();
             try {
-                JsonArray jsonArray = new JsonArray();
+                JSONArray jsonArray = new JSONArray();
 
-                for (int ii=0;ii<userlisstGroub.size();ii++){
-                    jsonArray.add(userlisstGroub.get(ii));
+                for (int ii = 0; ii < userlisstGroub.size(); ii++) {
+                    jsonArray.put(userlisstGroub.get(ii));
+                    Log.e("ttttttttt", userlisstGroub.get(ii));
 
                 }
                 jsonObject.put("id", groubId);
@@ -130,7 +139,7 @@ public class MakeGroubActivity extends AppCompatActivity {
                 jsonObject.put("user", jsonArray);
 
                 mSocket.emit("AddGroub", jsonObject);
-                Log.e("TAG",jsonObject.toString());
+                Log.e("TAG", jsonObject.toString());
 
             } catch (JSONException e) {
                 e.printStackTrace();
