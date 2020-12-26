@@ -1,64 +1,125 @@
 package com.application.socketclient;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AllUserFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Socket;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class AllUserFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AllUserFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AllUserFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AllUserFragment newInstance(String param1, String param2) {
-        AllUserFragment fragment = new AllUserFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private String TAG = "useractivity";
+    RecyclerView recyclerViewUser;
+    private Gson gson;
+    private List<User> userArray;
+    ArrayList<User> userlisst;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_user, container, false);
+        View root= inflater.inflate(R.layout.fragment_all_user, container, false);
+
+        userlisst=new ArrayList<>();
+        userArray = new ArrayList<>();
+        recyclerViewUser = root.findViewById(R.id.recycleviewUser);
+        final UserdAdapter userdAdapter = new UserdAdapter(userArray);
+        recyclerViewUser.setAdapter(userdAdapter);
+        recyclerViewUser.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        userdAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                User u = userArray.get(position);
+                String usernamee = u.getUsername();
+                String userId = u.getId();
+                Intent i = new Intent(getContext(), MainActivity.class);
+                i.putExtra("username", usernamee);
+                i.putExtra("userid", u.getId());
+                i.putExtra("user", u);
+                Log.e("iiid", userId);
+                startActivity(i);
+            }
+        });
+
+
+        gson = new Gson();
+
+        ChatApplication app = new ChatApplication();
+
+        Socket mSocket = app.getSocket();
+
+        mSocket.connect();
+
+
+        mSocket.emit("allusers", true);
+
+        mSocket.on("allusers", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("hin", String.valueOf(args[0]));
+                        System.out.println(args[0]);
+                        Type userListType = new TypeToken<List<User>>() {
+                        }.getType();
+                        userlisst = gson.fromJson(args[0].toString(), userListType);
+                        userlisst.get(0).getId();
+                        Log.e("mm", userlisst.toString());
+                        userArray.clear();
+                        userArray.addAll(userlisst);
+                        userdAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
+            }
+        });
+
+
+        mSocket.on("joinu", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String data= (String) args[0];
+                        Log.e("oooooooooopsppsps","inline id :"+data);
+
+                    }
+                });
+            }
+        });
+
+
+
+
+        return root;
+    }
+
+
+
+
+    public void moveToMackeGroub(View view) {
+
+        Intent i=new Intent(getContext(),MakeGroubActivity.class);
+        i.putParcelableArrayListExtra("userlist",userlisst);
+        startActivity(i);
     }
 }

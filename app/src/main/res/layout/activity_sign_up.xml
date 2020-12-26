@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    android:background="@drawable/ba"
+
  >
 
     <EditText
         android:id="@+id/password_sign_in"
         android:layout_width="wrap_content"
-        android:layout_height="57dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="28dp"
         android:background="@drawable/signback"
         android:ems="10"
         android:hint="Email"
@@ -22,7 +21,8 @@
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/email_sign_in"
+        app:layout_constraintStart_toStartOf="@+id/email_sign_in"
         app:layout_constraintTop_toBottomOf="@+id/email_sign_in" />
 
     <Button
@@ -30,13 +30,13 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="32dp"
         android:background="@drawable/btn_shape"
         android:text="singn up"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/password_sign_up"
+        app:layout_constraintStart_toStartOf="@+id/password_sign_up"
         app:layout_constraintTop_toBottomOf="@+id/password_sign_up" />
 
     <TextView
@@ -52,69 +52,71 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
 
     <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/btn_have_account"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginEnd="60dp"
         android:text="SIGN IN"
-        android:textColor="#C247BF"
-        android:textSize="23dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/password_sign_up"
         android:layout_width="wrap_content"
-        android:layout_height="57dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
         android:background="@drawable/signback"
         android:ems="10"
         android:hint="PassWord"
         android:inputType="textPassword"
-        android:padding="15dp"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/password_sign_in"
+        app:layout_constraintStart_toStartOf="@+id/password_sign_in"
         app:layout_constraintTop_toBottomOf="@+id/password_sign_in" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="167dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="228dp"
-        android:text="Sign Up"
-        android:textColor="#FFF7F7"
-        android:textSize="40dp"
-        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:padding="5dp"
+        android:text="New account"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/butsingin"
-        android:layout_width="364dp"
-        android:layout_height="114dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="52dp"
-        android:padding="20dp"
+        android:layout_width="327dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:text="We collect all the chalets of the sector  in one place"
         android:textAlignment="center"
-        android:textColor="#F1F1F1"
+        android:textColor="#474343"
         android:textSize="23dp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/email_sign_in"
         android:layout_width="wrap_content"
-        android:layout_height="57dp"
-        android:layout_marginTop="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="28dp"
         android:background="@drawable/signback"
         android:ems="10"
@@ -126,6 +128,17 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/butsingin" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/re" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

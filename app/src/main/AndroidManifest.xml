@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".GroubActivity"></activity>
+        <activity android:name=".MessageGroubActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
         <activity android:name=".MakeGroubActivity" />
         <activity android:name=".UsersActivity" />
         <activity android:name=".LogInActivity" />
@@ -25,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

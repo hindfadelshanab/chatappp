@@ -14,6 +14,7 @@ import java.util.List;
 public class GroubAdapter extends RecyclerView.Adapter<GroubAdapter.GroubViewHolder> {
 
     private List<Groub> mGroubs;
+    OnitemGroubClickListener onitemGroubClickListener;
 
     public GroubAdapter(List<Groub> Groubs) {
         this.mGroubs = Groubs;
@@ -43,6 +44,14 @@ public class GroubAdapter extends RecyclerView.Adapter<GroubAdapter.GroubViewHol
         public GroubViewHolder(@NonNull View itemView) {
             super(itemView);
             textView=itemView.findViewById(R.id.text_groub_ame);
+            if (onitemGroubClickListener !=null){
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onitemGroubClickListener.onItemClickGroub(v,mGroubs.get(getAdapterPosition()));
+                    }
+                });
+            }
 
 
         }
@@ -52,5 +61,8 @@ public class GroubAdapter extends RecyclerView.Adapter<GroubAdapter.GroubViewHol
 
 
         }
+    }
+    public void setOnitemGroubClickListener(OnitemGroubClickListener onitemGroubClickListener){
+        this.onitemGroubClickListener=onitemGroubClickListener;
     }
 }

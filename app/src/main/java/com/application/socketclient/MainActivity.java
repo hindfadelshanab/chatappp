@@ -12,21 +12,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     static String user_username;
     static String user_userid;
     User user;
-    ImageView imageViewll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
         mesageArray = new ArrayList<>();
         messageRecycle = findViewById(R.id.messageRecycleView);
         messageAdapter = new MessageAdapter(mesageArray);
-        imageViewll=findViewById(R.id.onnnnli);
-        gson = new Gson();
+
+
 
         ed_messege = findViewById(R.id.ed_messege);
         img_send = findViewById(R.id.img_send);
-        nameOfUser = findViewById(R.id.text_user_name);
+        nameOfUser = findViewById(R.id.nameTv);
 
         String sendername = getIntent().getStringExtra("username");
         desId = getIntent().getStringExtra("userid");
@@ -82,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
         userId = sharedPreferences.getString("userid", "");
-
+        gson = new Gson();
         ChatApplication app = new ChatApplication();
         mSocket = app.getSocket();
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -91,9 +83,6 @@ public class MainActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.connect();
 
-        imageViewll.setVisibility(View.INVISIBLE);
-
-
 
         img_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 attemptSend();
             }
         });
-
-       // mSocket.emit("join",LogInActivity.user.getId());
-
         mSocket.on("allmessage", new Emitter.Listener() {
             @Override
             public void call(final Object... args) {
@@ -116,53 +102,18 @@ public class MainActivity extends AppCompatActivity {
                             Message m = gson.fromJson(args[1].toString(), Message.class);
                             mesageArray.add(m);
                             messageAdapter.notifyDataSetChanged();
-/*
-                            Log.e("tttttt", data.getString("desid"));
-                       //     if (desId.equals(data.getString("desid")) ) {
-                                Log.e("ttttttasdf", data.getString("desid"));
-                                String messagetext = data.getString("message");
-                                String ui = data.getString("userid");
-                                Log.e("mss", messagetext);
-                             //  = new Message(messagetext, ui,
-                                        data.getString("desid"));
-                         //   }
 
- */
 
 
                             System.out.println("ggg");
-/*
 
-                                Log.e("mess", String.valueOf(args[0]));
-                                System.out.println(args[0] + "mss");
-                                Type userListType = new TypeToken<List<Message>>() {
-                                }.getType();
-                                List<Message> messagelisst = gson.fromJson(args[0].toString(), userListType);
-                                */
-                            //   mesageArray.addAll(messagelisst);
 
                         }
                     }
                 });
             }
         });
-                /*563
-        mSocket.on("message1", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                data = (String) args[0];
-                Log.e("a", data);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("hin", data);
-                        Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-        */
 
 
     }

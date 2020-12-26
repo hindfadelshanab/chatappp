@@ -1,64 +1,115 @@
 package com.application.socketclient;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AllGroubFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Socket;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+
 public class AllGroubFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AllGroubFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AllGroubFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AllGroubFragment newInstance(String param1, String param2) {
-        AllGroubFragment fragment = new AllGroubFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    ArrayList<Groub> groubs;
+    private Socket mSocket;
+    private Gson gson;
+    private ArrayList<String> iduserliststring;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_groub, container, false);
+        View root = inflater.inflate(R.layout.fragment_all_groub, container, false);
+
+
+        groubs = new ArrayList<>();
+        iduserliststring = new ArrayList<>();
+        gson = new Gson();
+        //   groubArrayList=new ArrayList<>();
+
+        ChatApplication app = new ChatApplication();
+        Socket mSocket = app.getSocket();
+        mSocket.connect();
+
+
+        ArrayList<User> users = getActivity().getIntent().getParcelableArrayListExtra("userInGroub");
+        String groubName = getActivity().getIntent().getStringExtra("groubName");
+
+
+        RecyclerView recyclerView = root.findViewById(R.id.groub_recycleview);
+        final GroubAdapter groubAdapter = new GroubAdapter(groubs);
+        recyclerView.setAdapter(groubAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        groubAdapter.setOnitemGroubClickListener(new OnitemGroubClickListener() {
+            @Override
+            public void onItemClickGroub(View v, Groub groub) {
+                Intent intent = new Intent(getContext(), MessageGroubActivity.class);
+                String groubid = groub.getId();
+                String GroubNamee = groub.getGroubName();
+                ArrayList<String> users1 = (ArrayList<String>) groub.getUser();
+                intent.putExtra("groubid", groubid);
+                intent.putExtra("GroubNamee", GroubNamee);
+                intent.putStringArrayListExtra("users1", users1);
+                Log.e("intent", groubid);
+                startActivity(intent);
+
+            }
+        });
+
+
+        mSocket.emit("allGroubs", true);
+        mSocket.on("allGroubs", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("oppp99999", String.valueOf(args[0]));
+                        Type userListType = new TypeToken<List<Groub>>() {
+                        }.getType();
+                        List<Groub> userlisst = gson.fromJson(args[0].toString(), userListType);
+                        Log.e("oppp99999", userlisst.toString());
+
+                        groubs.clear();
+                        groubs.addAll(userlisst);
+                        groubAdapter.notifyDataSetChanged();
+
+
+                    }
+                });
+                 }
+              });
+
+
+
+
+
+        return  root ;
     }
+
+
 }

@@ -7,18 +7,75 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/onnnnli"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/messageRecycleView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_user_name"
-        android:src="@drawable/ic_online" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/userg" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/imageView4">
+
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hid Abu Shanab"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/olineTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-light"
+                android:text="online"
+                android:textColor="#FFF"
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--
     <TextView
-        android:id="@+id/text_user_name"
+        android:id="@+id/text_groub_name"
         android:layout_width="223dp"
         android:layout_height="50dp"
         android:paddingStart="30sp"
@@ -29,39 +86,58 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Hind Abu Shanab" />
 
+        -->
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageRecycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/message_item"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_user_name" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        tools:listitem="@layout/message_item" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+
+
         <EditText
             android:id="@+id/ed_messege"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:hint="enter your messege" />
+            android:padding="15dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:paddingStart="15dp"
+            android:layout_marginBottom="5dp"
+            android:textColorHint="@color/white"
+            android:background="@drawable/background_edite"
+            android:hint="Enter your messege"
+            android:textAlignment="textStart"
+            android:textColor="#fff"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="641dp" />
 
-        <ImageView
+
+        <ImageButton
             android:id="@+id/img_send"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:paddingStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="0.5"
+            android:background="@drawable/back_send"
             android:src="@drawable/ic_send_black_24dp" />
 
     </LinearLayout>

@@ -4,8 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ba"
     >
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="200dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="36dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/g1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:padding="5dp"
+        android:text="Welcome back!"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/butsingin"
+        android:layout_width="323dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Please sing in to your account."
+        android:textAlignment="center"
+        android:textColor="#474343"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 
     <Button
         android:id="@+id/btn_sign_in"
@@ -35,54 +76,29 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
 
     <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/btn_have_account"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="44dp"
         android:onClick="haveAccount"
-        android:layout_marginEnd="72dp"
         android:text="SIGN UP"
-        android:textColor="#C247BF"
+        android:textColor="@color/colorPrimary"
         android:textSize="23dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="167dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="228dp"
-        android:text="Sign IN"
-        android:textColor="#FFF7F7"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/butsingin"
-        android:layout_width="364dp"
-        android:layout_height="114dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="52dp"
-        android:padding="20dp"
-        android:text="We collect all the chalets of the sector  in one place"
-        android:textAlignment="center"
-        android:textColor="#F1F1F1"
-        android:textSize="23dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/email_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="57dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/signback"
         android:ems="10"
@@ -93,6 +109,7 @@
         android:textColor="#000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/butsingin" />
 
     <EditText
