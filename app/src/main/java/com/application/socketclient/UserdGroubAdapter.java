@@ -29,18 +29,14 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
     private final List<User> mUsers;
     private final List<User> usergroub;
     private Socket mSocket;
-    OnItemSelectUser onItemSelectUser;
-
     ChatApplication app = new ChatApplication();
 
     OnItemClickListener onItemClickListener;
     Context context;
-    public UserdGroubAdapter(Context context, List<User> Users, OnItemSelectUser onItemSelectUser) {
+    public UserdGroubAdapter(Context context,List<User> Users) {
         this.mUsers = Users;
         this.context=context;
-        this.onItemSelectUser = onItemSelectUser;
-        this.context = context;
-        usergroub = new ArrayList<>();
+        usergroub=new ArrayList<>();
         mSocket = app.getSocket();
 
         mSocket.connect();
@@ -102,9 +98,6 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (checkBox.isChecked()) {
-                        onItemSelectUser.onSelect(isChecked,item);
-
-                        /*
                       //  usergroub.add(item);
                       //  User ug=item;
                         Log.e("check","checkeddddddd");
@@ -112,6 +105,7 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
                         mSocket.emit("userOnline", item.getId());
 
 
+/*
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("username", item.getUsername());
@@ -127,7 +121,6 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
  */
 
                       //  mSocket.emit("userOnline",usergroub);
-
                     }else {
                         Log.e("check"," No___checkeddddddd");
                     }
@@ -154,9 +147,6 @@ public class UserdGroubAdapter extends RecyclerView.Adapter<UserdGroubAdapter.us
     }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener=onItemClickListener;
-    }
-    interface OnItemSelectUser{
-        void onSelect(boolean isSelect,User user);
     }
 
 

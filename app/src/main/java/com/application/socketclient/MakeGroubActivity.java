@@ -30,7 +30,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,26 +65,40 @@ public class MakeGroubActivity extends AppCompatActivity {
         arr = getIntent().getParcelableArrayListExtra("userlist");
 
 
+        //List<User> list=new ArrayList<>();
 
-
-
-       userlisstGroub.add(LogInActivity.user.getId());
-        RecyclerView recyclerView = findViewById(R.id.recycle_g);
-        UserdGroubAdapter userdAdapter = new UserdGroubAdapter(MakeGroubActivity.this, arr, new UserdGroubAdapter.OnItemSelectUser() {
+        mSocket.on("userOnline", new Emitter.Listener() {
             @Override
-            public void onSelect(boolean isSelect, User item) {
-                if (isSelect) {
-                    if (!userlisstGroub.contains(item.getId())) {
-                        userlisstGroub.add(item.getId());
-                    }
-                }else {
-                    userlisstGroub.remove(item.getId());
-                }
+            public void call(Object... args) {
+               Log.e("yarab", String.valueOf(args[0]));
+                userlisstGroub.add(String.valueOf(args[0]));
+                //Type userListType = new TypeToken<List<User>>() {
+                ///}.getType();
+           //    ArrayList<User> userlisst = gson.fromJson(args[0].toString(), userListType);
+             //  for (int i=0; i<userlisst.size();i++) {
+               //    userlisstGroub.add(userlisst.get(i).getId());
+                 //  Log.e("tag",userlisst.get(i).getId());
+             //  }
+                groubs.add(new Groub(groubId, editTextGroubName.getText().toString(), userlisstGroub));
+
             }
         });
 
-        recyclerView.setAdapter(userdAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        RecyclerView recyclerView = findViewById(R.id.recycle_g);
+      UserdGroubAdapter userdAdapter = new UserdGroubAdapter(MakeGroubActivity.this, arr);
+
+       recyclerView.setAdapter(userdAdapter);
+     recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       if (arr != null) {
+          for (int i = 0; i < arr.size(); i++) {
+             User user = new User(arr.get(i).getId(), arr.get(i).getUsername(), arr.get(i).getEmail());
+             Log.e("us", user.toString());
+         }
+
+
+    }
 
 
     }
@@ -99,15 +112,17 @@ public class MakeGroubActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_check) {
-          Intent i = new Intent(MakeGroubActivity.this, UsersActivity.class);
+            Intent i = new Intent(MakeGroubActivity.this, GroubActivity.class);
+            //i.putParcelableArrayListExtra("userInGroub", userlisstGroub);
+          //  i.putExtra("groubName", editTextGroubName.getText().toString());
 
 
             JSONObject jsonObject = new JSONObject();
             try {
-                JSONArray jsonArray = new JSONArray();
-        for (int ii = 0; ii < userlisstGroub.size(); ii++) {
-                    jsonArray.put(userlisstGroub.get(ii));
-                    Log.e("ttttttttt", userlisstGroub.get(ii));
+                JsonArray jsonArray = new JsonArray();
+
+                for (int ii=0;ii<userlisstGroub.size();ii++){
+                    jsonArray.add(userlisstGroub.get(ii));
 
                 }
                 jsonObject.put("id", groubId);
@@ -121,8 +136,11 @@ public class MakeGroubActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //  mSocket.emit("allGroub", groubs);
 
-      startActivity(i);
+            //  System.out.println(editTextGroubName);
+
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
